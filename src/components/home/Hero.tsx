@@ -63,26 +63,6 @@ const Hero = () => {
           </FadeIn>
         </div>
 
-        <FadeIn delay={500} className="mt-16 sm:mt-24">
-          <div className="relative mx-auto overflow-hidden rounded-xl border border-gray-200 shadow-2xl dark:border-gray-800">
-            <div className="bg-gray-900 py-2 px-4 flex items-center space-x-2">
-              <div className="flex space-x-1">
-                <div className="h-2.5 w-2.5 rounded-full bg-red-500"></div>
-                <div className="h-2.5 w-2.5 rounded-full bg-yellow-500"></div>
-                <div className="h-2.5 w-2.5 rounded-full bg-green-500"></div>
-              </div>
-              <div className="flex-1 text-center">
-                <span className="text-xs text-gray-400">TimeScribe Dashboard</span>
-              </div>
-            </div>
-            <div className="relative bg-white dark:bg-gray-950 w-full aspect-[5/3] overflow-hidden">
-              <div className="absolute inset-0 flex items-center justify-center text-gray-400">
-                Dashboard preview will be displayed here
-              </div>
-            </div>
-          </div>
-        </FadeIn>
-
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
           <FadeIn delay={600} direction="up">
             <Glass className="p-6">
