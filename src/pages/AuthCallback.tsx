@@ -26,6 +26,19 @@ const AuthCallback = () => {
         }
         
         if (data?.session) {
+          // Get the Jira access token from the session
+          const jiraToken = data.session.provider_token;
+          
+          if (jiraToken) {
+            // Store the Jira token for later API calls
+            localStorage.setItem('jira_token', jiraToken);
+            
+            console.log('Jira authentication successful', { 
+              user: data.session.user,
+              provider: data.session.user.app_metadata.provider
+            });
+          }
+          
           toast({
             title: "Login successful",
             description: "You have been authenticated successfully with Jira.",

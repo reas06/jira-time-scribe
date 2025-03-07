@@ -49,11 +49,12 @@ const Login = () => {
   const handleJiraLogin = async () => {
     setIsLoading(true);
     try {
+      // Use the correct provider name from Supabase's supported OAuth providers
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'atlassian',
         options: {
-          redirectTo: `${window.location.origin}/dashboard`,
-          scopes: 'read:jira-user read:jira-work',
+          redirectTo: `${window.location.origin}/auth/callback`,
+          scopes: 'read:jira-user read:jira-work write:jira-work manage:jira-webhook manage:jira-data-provider',
         },
       });
       

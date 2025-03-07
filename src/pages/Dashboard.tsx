@@ -1,14 +1,32 @@
-
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "@/components/layout/Header";
 import Container from "@/components/layout/Container";
 import JiraConnect from "@/components/jira/JiraConnect";
+import JiraIssuesList from "@/components/jira/JiraIssuesList";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Clock, GitBranch, CalendarDays, AlertCircle } from "lucide-react";
 import FadeIn from "@/components/animations/FadeIn";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Dashboard = () => {
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
+  const [isJiraConnected, setIsJiraConnected] = useState(false);
+
+  useEffect(() => {
+    // Check if user is logged in
+    if (!loading && !user) {
+      navigate('/login');
+    }
+    
+    // Check if user is connected to Jira
+    if (user?.app_metadata?.provider === 'atlassian') {
+      setIsJiraConnected(true);
+    }
+  }, [user, loading, navigate]);
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
       <Header />
@@ -24,55 +42,61 @@ const Dashboard = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-2 space-y-6">
-                <FadeIn delay={100}>
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Getting Started</CardTitle>
-                      <CardDescription>
-                        Connect your services to start automating your time tracking.
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-6">
-                        <div className="flex items-start gap-4">
-                          <div className="h-10 w-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center flex-shrink-0">
-                            <Clock className="h-5 w-5" />
+                {isJiraConnected ? (
+                  <FadeIn delay={100}>
+                    <JiraIssuesList />
+                  </FadeIn>
+                ) : (
+                  <FadeIn delay={100}>
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>Getting Started</CardTitle>
+                        <CardDescription>
+                          Connect your services to start automating your time tracking.
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-6">
+                          <div className="flex items-start gap-4">
+                            <div className="h-10 w-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center flex-shrink-0">
+                              <Clock className="h-5 w-5" />
+                            </div>
+                            <div>
+                              <h3 className="font-medium mb-1">Connect to Jira</h3>
+                              <p className="text-sm text-gray-500 dark:text-gray-400">
+                                Link your Jira account to import tasks and time logs.
+                              </p>
+                            </div>
                           </div>
-                          <div>
-                            <h3 className="font-medium mb-1">Connect to Jira</h3>
-                            <p className="text-sm text-gray-500 dark:text-gray-400">
-                              Link your Jira account to import tasks and time logs.
-                            </p>
-                          </div>
-                        </div>
 
-                        <div className="flex items-start gap-4">
-                          <div className="h-10 w-10 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center flex-shrink-0">
-                            <GitBranch className="h-5 w-5" />
+                          <div className="flex items-start gap-4">
+                            <div className="h-10 w-10 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center flex-shrink-0">
+                              <GitBranch className="h-5 w-5" />
+                            </div>
+                            <div>
+                              <h3 className="font-medium mb-1">Connect to BitBucket/GitHub</h3>
+                              <p className="text-sm text-gray-500 dark:text-gray-400">
+                                Link your Git repository to pull commit information.
+                              </p>
+                            </div>
                           </div>
-                          <div>
-                            <h3 className="font-medium mb-1">Connect to BitBucket/GitHub</h3>
-                            <p className="text-sm text-gray-500 dark:text-gray-400">
-                              Link your Git repository to pull commit information.
-                            </p>
-                          </div>
-                        </div>
 
-                        <div className="flex items-start gap-4">
-                          <div className="h-10 w-10 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center flex-shrink-0">
-                            <CalendarDays className="h-5 w-5" />
-                          </div>
-                          <div>
-                            <h3 className="font-medium mb-1">Connect to Calendar</h3>
-                            <p className="text-sm text-gray-500 dark:text-gray-400">
-                              Link your calendar to import meetings and events.
-                            </p>
+                          <div className="flex items-start gap-4">
+                            <div className="h-10 w-10 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center flex-shrink-0">
+                              <CalendarDays className="h-5 w-5" />
+                            </div>
+                            <div>
+                              <h3 className="font-medium mb-1">Connect to Calendar</h3>
+                              <p className="text-sm text-gray-500 dark:text-gray-400">
+                                Link your calendar to import meetings and events.
+                              </p>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </FadeIn>
+                      </CardContent>
+                    </Card>
+                  </FadeIn>
+                )}
 
                 <FadeIn delay={200}>
                   <Card>
@@ -106,7 +130,30 @@ const Dashboard = () => {
                       <TabsTrigger value="calendar">Calendar</TabsTrigger>
                     </TabsList>
                     <TabsContent value="jira">
-                      <JiraConnect />
+                      {isJiraConnected ? (
+                        <Card>
+                          <CardHeader>
+                            <CardTitle>Jira Connected</CardTitle>
+                            <CardDescription>
+                              Your Jira account is connected successfully.
+                            </CardDescription>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="flex items-center justify-center py-4">
+                              <div className="text-center">
+                                <div className="h-12 w-12 rounded-full bg-green-100 text-green-600 flex items-center justify-center mx-auto mb-4">
+                                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                  </svg>
+                                </div>
+                                <p className="font-medium">Connected as {user?.user_metadata?.name || user?.email}</p>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ) : (
+                        <JiraConnect />
+                      )}
                     </TabsContent>
                     <TabsContent value="git">
                       <Card>
