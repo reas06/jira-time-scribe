@@ -31,7 +31,8 @@ const TimeLogsList = () => {
     try {
       // Always use demo data for this component
       const timeData = await demoJiraService.getTimeLogData();
-      setLogs(timeData);
+      // Type assertion to ensure the returned data matches our TimeLog[] type
+      setLogs(timeData as TimeLog[]);
     } catch (error) {
       console.error("Error loading time logs:", error);
       toast({

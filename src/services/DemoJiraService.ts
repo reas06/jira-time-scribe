@@ -31,7 +31,6 @@ export const generateDummyJiraIssues = (): JiraIssue[] => {
     {
       id: "DEMO-1",
       key: "DEMO-1",
-      self: "https://example.atlassian.net/rest/api/3/issue/DEMO-1",
       fields: {
         summary: "Implement user authentication flow",
         description: "Add OAuth2 authentication with Jira and email/password login options",
@@ -49,7 +48,9 @@ export const generateDummyJiraIssues = (): JiraIssue[] => {
               created: formatISO(subDays(now, 5)),
               author: {
                 displayName: "Demo User",
-                accountId: "demo-user-123"
+                avatarUrls: {
+                  "48x48": "https://secure.gravatar.com/avatar/1234567890abcdef?d=https%3A%2F%2Favatar-management.service.mailchimp.com%2F1.0%2Fimages%2Fdefault-avatar.png"
+                }
               }
             },
             {
@@ -58,7 +59,9 @@ export const generateDummyJiraIssues = (): JiraIssue[] => {
               created: formatISO(subDays(now, 3)),
               author: {
                 displayName: "Demo User",
-                accountId: "demo-user-123"
+                avatarUrls: {
+                  "48x48": "https://secure.gravatar.com/avatar/1234567890abcdef?d=https%3A%2F%2Favatar-management.service.mailchimp.com%2F1.0%2Fimages%2Fdefault-avatar.png"
+                }
               }
             }
           ]
@@ -68,7 +71,6 @@ export const generateDummyJiraIssues = (): JiraIssue[] => {
     {
       id: "DEMO-2",
       key: "DEMO-2",
-      self: "https://example.atlassian.net/rest/api/3/issue/DEMO-2",
       fields: {
         summary: "Design dashboard layout",
         description: "Create a responsive dashboard layout with sidebar navigation and main content area",
@@ -86,7 +88,9 @@ export const generateDummyJiraIssues = (): JiraIssue[] => {
               created: formatISO(subDays(now, 1)),
               author: {
                 displayName: "Demo User",
-                accountId: "demo-user-123"
+                avatarUrls: {
+                  "48x48": "https://secure.gravatar.com/avatar/1234567890abcdef?d=https%3A%2F%2Favatar-management.service.mailchimp.com%2F1.0%2Fimages%2Fdefault-avatar.png"
+                }
               }
             }
           ]
@@ -96,7 +100,6 @@ export const generateDummyJiraIssues = (): JiraIssue[] => {
     {
       id: "DEMO-3",
       key: "DEMO-3",
-      self: "https://example.atlassian.net/rest/api/3/issue/DEMO-3",
       fields: {
         summary: "Fix time tracking component",
         description: "The time tracking component doesn't show the correct hours spent on each task",
@@ -114,7 +117,9 @@ export const generateDummyJiraIssues = (): JiraIssue[] => {
               created: formatISO(subDays(now, 2)),
               author: {
                 displayName: "Demo User",
-                accountId: "demo-user-123"
+                avatarUrls: {
+                  "48x48": "https://secure.gravatar.com/avatar/1234567890abcdef?d=https%3A%2F%2Favatar-management.service.mailchimp.com%2F1.0%2Fimages%2Fdefault-avatar.png"
+                }
               }
             }
           ]
@@ -124,7 +129,6 @@ export const generateDummyJiraIssues = (): JiraIssue[] => {
     {
       id: "DEMO-4",
       key: "DEMO-4",
-      self: "https://example.atlassian.net/rest/api/3/issue/DEMO-4",
       fields: {
         summary: "Implement report generation feature",
         description: "Add functionality to generate PDF reports of time spent on tasks",
@@ -142,7 +146,6 @@ export const generateDummyJiraIssues = (): JiraIssue[] => {
     {
       id: "DEMO-5",
       key: "DEMO-5",
-      self: "https://example.atlassian.net/rest/api/3/issue/DEMO-5",
       fields: {
         summary: "Add Git repository integration",
         description: "Connect to GitHub/BitBucket to pull commit information",
@@ -160,7 +163,9 @@ export const generateDummyJiraIssues = (): JiraIssue[] => {
               created: formatISO(subDays(now, 8)),
               author: {
                 displayName: "Demo User",
-                accountId: "demo-user-123"
+                avatarUrls: {
+                  "48x48": "https://secure.gravatar.com/avatar/1234567890abcdef?d=https%3A%2F%2Favatar-management.service.mailchimp.com%2F1.0%2Fimages%2Fdefault-avatar.png"
+                }
               }
             }
           ]
@@ -170,7 +175,6 @@ export const generateDummyJiraIssues = (): JiraIssue[] => {
     {
       id: "DEMO-6",
       key: "DEMO-6",
-      self: "https://example.atlassian.net/rest/api/3/issue/DEMO-6",
       fields: {
         summary: "Improve mobile responsiveness",
         description: "Optimize UI for mobile devices and tablets",
@@ -188,7 +192,9 @@ export const generateDummyJiraIssues = (): JiraIssue[] => {
               created: formatISO(subDays(now, 4)),
               author: {
                 displayName: "Demo User",
-                accountId: "demo-user-123"
+                avatarUrls: {
+                  "48x48": "https://secure.gravatar.com/avatar/1234567890abcdef?d=https%3A%2F%2Favatar-management.service.mailchimp.com%2F1.0%2Fimages%2Fdefault-avatar.png"
+                }
               }
             }
           ]
@@ -198,7 +204,6 @@ export const generateDummyJiraIssues = (): JiraIssue[] => {
     {
       id: "DEMO-7",
       key: "DEMO-7",
-      self: "https://example.atlassian.net/rest/api/3/issue/DEMO-7",
       fields: {
         summary: "Calendar integration with Google Calendar",
         description: "Import meetings from Google Calendar to automatically log discussion time",
