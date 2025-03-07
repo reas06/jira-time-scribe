@@ -46,6 +46,7 @@ export const generateDummyJiraIssues = (): JiraIssue[] => {
               id: "1",
               body: "I'm working on integrating the Jira OAuth",
               created: formatISO(subDays(now, 5)),
+              updated: formatISO(subDays(now, 5)), // Adding the updated field with same value as created
               author: {
                 displayName: "Demo User",
                 avatarUrls: {
@@ -57,6 +58,7 @@ export const generateDummyJiraIssues = (): JiraIssue[] => {
               id: "2",
               body: "Added email/password authentication yesterday, will now focus on the OAuth part",
               created: formatISO(subDays(now, 3)),
+              updated: formatISO(subDays(now, 3)), // Adding the updated field with same value as created
               author: {
                 displayName: "Demo User",
                 avatarUrls: {
@@ -86,6 +88,7 @@ export const generateDummyJiraIssues = (): JiraIssue[] => {
               id: "3",
               body: "Dashboard layout is complete, added responsive design for mobile",
               created: formatISO(subDays(now, 1)),
+              updated: formatISO(subDays(now, 1)), // Adding the updated field with same value as created
               author: {
                 displayName: "Demo User",
                 avatarUrls: {
@@ -115,6 +118,7 @@ export const generateDummyJiraIssues = (): JiraIssue[] => {
               id: "4",
               body: "Found the issue, it's related to timezone conversion",
               created: formatISO(subDays(now, 2)),
+              updated: formatISO(subDays(now, 2)), // Adding the updated field with same value as created
               author: {
                 displayName: "Demo User",
                 avatarUrls: {
@@ -161,6 +165,7 @@ export const generateDummyJiraIssues = (): JiraIssue[] => {
               id: "5",
               body: "Need to research available APIs for GitHub and BitBucket",
               created: formatISO(subDays(now, 8)),
+              updated: formatISO(subDays(now, 8)), // Adding the updated field with same value as created
               author: {
                 displayName: "Demo User",
                 avatarUrls: {
@@ -190,6 +195,7 @@ export const generateDummyJiraIssues = (): JiraIssue[] => {
               id: "6",
               body: "Mobile layout improvements added, please review on different screen sizes",
               created: formatISO(subDays(now, 4)),
+              updated: formatISO(subDays(now, 4)), // Adding the updated field with same value as created
               author: {
                 displayName: "Demo User",
                 avatarUrls: {
