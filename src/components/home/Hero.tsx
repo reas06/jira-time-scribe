@@ -51,7 +51,7 @@ const Hero = () => {
           <FadeIn delay={400}>
             <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" asChild className="px-8">
-                <Link to="/register">
+                <Link to="/login">
                   Get started
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
