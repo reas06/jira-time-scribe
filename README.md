@@ -1,69 +1,45 @@
-# Welcome to your Lovable project
 
-## Project info
+# TimeScribe
 
-**URL**: https://lovable.dev/projects/efba7030-5e2a-49a7-8433-beb696a1d4a2
+TimeScribe is a web application that automates time tracking by integrating with tools like Jira, BitBucket, and calendar systems to generate accurate time logs with rich, automatically generated descriptions.
 
-## How can I edit this code?
+## Features
 
-There are several ways of editing your application.
+- **Jira Integration**: Connect directly to your Jira projects to import tasks, issues, and time logs.
+- **Git Sync**: Pull information from your commits to enhance time log details.
+- **Calendar Integration**: Import meetings and events from your calendar to track discussion time.
+- **Time Tracking**: Accurate tracking of time spent on tasks with minimal manual input required.
+- **PDF Reports**: Generate and download PDF reports of your time logs for weekly or monthly periods.
+- **Automatic Descriptions**: Generate detailed descriptions from Jira comments, git commits, and more.
 
-**Use Lovable**
+## Technology Stack
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/efba7030-5e2a-49a7-8433-beb696a1d4a2) and start prompting.
+- React with TypeScript
+- Tailwind CSS for styling
+- shadcn/ui component library
+- React Router for navigation
+- React Query for data fetching
+- PDF generation with jsPDF
 
-Changes made via Lovable will be committed automatically to this repo.
+## Getting Started
 
-**Use your preferred IDE**
+1. Clone the repository
+2. Install dependencies with `npm install`
+3. Start the development server with `npm run dev`
+4. Navigate to http://localhost:8080 to see the application
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Project Structure
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- `/src/components`: React components organized by function
+- `/src/pages`: Page-level components representing different routes
+- `/src/services`: Service modules that handle external API interactions
+- `/src/contexts`: React contexts for state management
+- `/src/hooks`: Custom React hooks
 
-Follow these steps:
+## Authentication
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+The application includes authentication functionality with login and registration pages. Users need to authenticate to access their time tracking data.
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## Development
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with .
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/efba7030-5e2a-49a7-8433-beb696a1d4a2) and click on Share -> Publish.
-
-## I want to use a custom domain - is that possible?
-
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+This project is built with Vite for fast development and optimized production builds. The codebase follows a component-based architecture with a focus on reusability and maintainability.
