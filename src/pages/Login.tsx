@@ -50,9 +50,10 @@ const Login = () => {
     setIsLoading(true);
     try {
       const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: 'jira',
+        provider: 'atlassian',
         options: {
           redirectTo: `${window.location.origin}/dashboard`,
+          scopes: 'read:jira-user read:jira-work',
         },
       });
       
