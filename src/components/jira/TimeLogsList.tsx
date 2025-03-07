@@ -1,9 +1,8 @@
-
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Loader2, Calendar, Clock, FileDown, FilePdf } from "lucide-react";
+import { Loader2, Calendar, Clock, FileDown, FileText } from "lucide-react";
 import { formatDistanceToNow, format } from "date-fns";
 import { demoJiraService } from "@/services/DemoJiraService";
 import { toast } from "@/components/ui/use-toast";
@@ -164,7 +163,7 @@ const TimeLogsList = () => {
                 disabled={isLoading}
                 className="text-xs"
               >
-                <FilePdf className="h-3.5 w-3.5 mr-1" />
+                <FileText className="h-3.5 w-3.5 mr-1" />
                 Monthly PDF
               </Button>
             </div>
