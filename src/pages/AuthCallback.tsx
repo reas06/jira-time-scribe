@@ -6,8 +6,15 @@ import { toast } from "@/components/ui/use-toast";
 
 const AuthCallback = () => {
   const navigate = useNavigate();
+  const isDemoMode = localStorage.getItem('is_demo_mode') === 'true';
 
   useEffect(() => {
+    // If we're in demo mode, just redirect to dashboard
+    if (isDemoMode) {
+      navigate('/dashboard');
+      return;
+    }
+
     const handleAuthCallback = async () => {
       try {
         // The hash contains the token details

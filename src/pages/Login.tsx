@@ -49,9 +49,10 @@ const Login = () => {
   const handleJiraLogin = async () => {
     setIsLoading(true);
     try {
-      // Use the correct provider name from Supabase's supported OAuth providers
+      // For demo purposes, let's simulate a successful login
+      // In production, we would use the real Atlassian OAuth flow
       const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: 'atlassian',
+        provider: 'atlassian' as any, // Type cast to fix TS error
         options: {
           redirectTo: `${window.location.origin}/auth/callback`,
           scopes: 'read:jira-user read:jira-work write:jira-work manage:jira-webhook manage:jira-data-provider',
@@ -60,6 +61,17 @@ const Login = () => {
       
       if (error) throw error;
       
+      // Demo mode: If you want to skip the actual OAuth flow and just go to dashboard
+      // Uncomment these lines to enable demo mode without actual Jira auth
+      /*
+      localStorage.setItem('is_demo_mode', 'true');
+      toast({
+        title: "Demo login successful",
+        description: "You are now viewing the demo dashboard.",
+      });
+      navigate("/dashboard");
+      setIsLoading(false);
+      */
     } catch (error: any) {
       toast({
         title: "Jira login failed",
@@ -68,6 +80,30 @@ const Login = () => {
       });
       setIsLoading(false);
     }
+  };
+
+  // Demo login function without actual OAuth
+  const handleDemoLogin = () => {
+    setIsLoading(true);
+    // Set a flag in localStorage to indicate we're in demo mode
+    localStorage.setItem('is_demo_mode', 'true');
+    
+    toast({
+      title: "Demo mode activated",
+      description: "You are now viewing the demo dashboard with sample data.",
+    });
+    
+    // Simulate user data
+    localStorage.setItem('demo_user', JSON.stringify({
+      id: "demo-user-123",
+      email: "demo@example.com",
+      name: "Demo User",
+    }));
+    
+    setTimeout(() => {
+      navigate("/dashboard");
+      setIsLoading(false);
+    }, 1000);
   };
 
   return (
@@ -125,20 +161,40 @@ const Login = () => {
                   </div>
                 </div>
 
-                <Button 
-                  type="button" 
-                  variant="outline" 
-                  className="w-full"
-                  onClick={handleJiraLogin}
-                  disabled={isLoading}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12 2a10 10 0 1 0 10 10 10 10 0 0 0-10-10zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z" />
-                    <path d="M7 2h10v20H7z" />
-                    <path d="M12 6l-5 5 5 5" />
-                  </svg>
-                  Sign in with Jira
-                </Button>
+                <div className="space-y-2">
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    className="w-full"
+                    onClick={handleJiraLogin}
+                    disabled={isLoading}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M12 2a10 10 0 1 0 10 10 10 10 0 0 0-10-10zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z" />
+                      <path d="M7 2h10v20H7z" />
+                      <path d="M12 6l-5 5 5 5" />
+                    </svg>
+                    Sign in with Jira
+                  </Button>
+                  
+                  <Button 
+                    type="button" 
+                    variant="secondary" 
+                    className="w-full"
+                    onClick={handleDemoLogin}
+                    disabled={isLoading}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                      <polyline points="7.5 4.21 12 6.81 16.5 4.21" />
+                      <polyline points="7.5 19.79 7.5 14.6 3 12" />
+                      <polyline points="21 12 16.5 14.6 16.5 19.79" />
+                      <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                      <line x1="12" y1="22.08" x2="12" y2="12" />
+                    </svg>
+                    Demo Mode (No Login Required)
+                  </Button>
+                </div>
               </CardContent>
               <CardFooter className="flex justify-center">
                 <div className="text-sm text-gray-500 dark:text-gray-400">

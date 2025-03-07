@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from "react";
 import { jiraService, JiraIssue } from "@/services/JiraService";
+import { demoJiraService } from "@/services/DemoJiraService";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -15,6 +16,7 @@ const JiraIssuesList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("all");
   const { user } = useAuth();
+  const isDemoMode = localStorage.getItem('is_demo_mode') === 'true';
 
   useEffect(() => {
     loadIssues();
@@ -23,18 +25,20 @@ const JiraIssuesList = () => {
   const loadIssues = async () => {
     setIsLoading(true);
     try {
-      if (!user) {
+      // Use demo service if in demo mode, otherwise use the real service
+      if (isDemoMode) {
+        const dummyIssues = await demoJiraService.getAssignedIssues();
+        setIssues(dummyIssues);
+      } else if (user) {
+        const assignedIssues = await jiraService.getAssignedIssues();
+        setIssues(assignedIssues);
+      } else {
         toast({
           title: "Authentication required",
           description: "Please log in with your Jira account to view issues.",
           variant: "destructive",
         });
-        setIsLoading(false);
-        return;
       }
-
-      const assignedIssues = await jiraService.getAssignedIssues();
-      setIssues(assignedIssues);
     } catch (error) {
       console.error("Error loading issues:", error);
       toast({
@@ -70,6 +74,7 @@ const JiraIssuesList = () => {
   const getStatusColor = (status: string) => {
     const statusLower = status.toLowerCase();
     if (statusLower.includes("progress")) return "bg-blue-500";
+    if (statusLower.includes("review")) return "bg-amber-500";
     if (statusLower.includes("done")) return "bg-green-500";
     if (statusLower.includes("to do") || statusLower.includes("backlog")) return "bg-gray-500";
     return "bg-purple-500";
@@ -85,13 +90,36 @@ const JiraIssuesList = () => {
     return "⚪";
   };
 
+  const handleLogTime = (issue: JiraIssue) => {
+    toast({
+      title: "Time logged",
+      description: `You've logged time for ${issue.key}: ${issue.fields.summary}`,
+    });
+  };
+
+  const handleViewDetails = (issue: JiraIssue) => {
+    toast({
+      title: "View issue details",
+      description: `Viewing details for ${issue.key}`,
+    });
+  };
+
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle>My Jira Issues</CardTitle>
-        <CardDescription>
-          View and manage your assigned Jira issues
-        </CardDescription>
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle>My Jira Issues</CardTitle>
+            <CardDescription>
+              View and manage your assigned Jira issues
+            </CardDescription>
+          </div>
+          {isDemoMode && (
+            <Badge variant="outline" className="bg-amber-100 text-amber-800 border-amber-200">
+              Demo Mode
+            </Badge>
+          )}
+        </div>
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="all" className="w-full" onValueChange={setActiveTab}>
@@ -162,10 +190,18 @@ const JiraIssuesList = () => {
                     </CardContent>
 
                     <CardFooter className="p-4 pt-0 flex justify-end">
-                      <Button variant="outline" size="sm" className="mr-2">
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="mr-2"
+                        onClick={() => handleLogTime(issue)}
+                      >
                         Log Time
                       </Button>
-                      <Button size="sm">
+                      <Button 
+                        size="sm"
+                        onClick={() => handleViewDetails(issue)}
+                      >
                         View Details
                       </Button>
                     </CardFooter>

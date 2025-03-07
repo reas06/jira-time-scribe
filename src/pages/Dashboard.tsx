@@ -1,31 +1,39 @@
+
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/layout/Header";
 import Container from "@/components/layout/Container";
 import JiraConnect from "@/components/jira/JiraConnect";
 import JiraIssuesList from "@/components/jira/JiraIssuesList";
+import TimeLogsList from "@/components/jira/TimeLogsList";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Clock, GitBranch, CalendarDays, AlertCircle } from "lucide-react";
 import FadeIn from "@/components/animations/FadeIn";
 import { useAuth } from "@/contexts/AuthContext";
+import { Badge } from "@/components/ui/badge";
 
 const Dashboard = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const [isJiraConnected, setIsJiraConnected] = useState(false);
+  const isDemoMode = localStorage.getItem('is_demo_mode') === 'true';
 
   useEffect(() => {
-    // Check if user is logged in
-    if (!loading && !user) {
+    // Check if user is logged in, unless we're in demo mode
+    if (!loading && !user && !isDemoMode) {
       navigate('/login');
     }
     
-    // Check if user is connected to Jira
-    if (user?.app_metadata?.provider === 'atlassian') {
+    // Check if user is connected to Jira or we're in demo mode
+    if ((user?.app_metadata?.provider === 'atlassian') || isDemoMode) {
       setIsJiraConnected(true);
     }
   }, [user, loading, navigate]);
+
+  // For demo purposes, let's create a mock user if we're in demo mode
+  const demoUser = isDemoMode ? JSON.parse(localStorage.getItem('demo_user') || '{}') : null;
+  const displayUser = isDemoMode ? demoUser : user;
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
@@ -34,10 +42,19 @@ const Dashboard = () => {
         <Container>
           <div className="flex flex-col gap-8">
             <FadeIn>
-              <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-              <p className="text-gray-500 dark:text-gray-400 mt-2">
-                Connect your accounts and start automating your time tracking.
-              </p>
+              <div className="flex justify-between items-center">
+                <div>
+                  <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+                  <p className="text-gray-500 dark:text-gray-400 mt-2">
+                    Connect your accounts and start automating your time tracking.
+                  </p>
+                </div>
+                {isDemoMode && (
+                  <Badge variant="outline" className="bg-amber-100 text-amber-800 border-amber-200 px-3 py-1">
+                    Demo Mode - Sample Data
+                  </Badge>
+                )}
+              </div>
             </FadeIn>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -99,25 +116,29 @@ const Dashboard = () => {
                 )}
 
                 <FadeIn delay={200}>
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Recent Activity</CardTitle>
-                      <CardDescription>
-                        Your recent time logs and activity.
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex items-center justify-center py-8 text-center text-gray-500 dark:text-gray-400">
-                        <div>
-                          <AlertCircle className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                          <p>No recent activity</p>
-                          <p className="text-sm mt-1">
-                            Connect your accounts to start tracking time.
-                          </p>
+                  {isJiraConnected ? (
+                    <TimeLogsList />
+                  ) : (
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>Recent Activity</CardTitle>
+                        <CardDescription>
+                          Your recent time logs and activity.
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="flex items-center justify-center py-8 text-center text-gray-500 dark:text-gray-400">
+                          <div>
+                            <AlertCircle className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                            <p>No recent activity</p>
+                            <p className="text-sm mt-1">
+                              Connect your accounts to start tracking time.
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+                      </CardContent>
+                    </Card>
+                  )}
                 </FadeIn>
               </div>
 
@@ -146,7 +167,12 @@ const Dashboard = () => {
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                   </svg>
                                 </div>
-                                <p className="font-medium">Connected as {user?.user_metadata?.name || user?.email}</p>
+                                <p className="font-medium">Connected as {displayUser?.user_metadata?.name || displayUser?.email || "Demo User"}</p>
+                                {isDemoMode && (
+                                  <p className="text-xs text-amber-600 mt-2">
+                                    Using demo data for demonstration purposes
+                                  </p>
+                                )}
                               </div>
                             </div>
                           </CardContent>
@@ -197,13 +223,23 @@ const Dashboard = () => {
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <div className="flex items-center justify-center py-8 text-center text-gray-500 dark:text-gray-400">
-                        <div>
-                          <AlertCircle className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                          <p>No stats available</p>
-                          <p className="text-sm mt-1">
-                            Start tracking time to see statistics.
-                          </p>
+                      <div className="space-y-4">
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="bg-blue-50 dark:bg-blue-950/30 rounded-lg p-4">
+                            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Total Hours</h3>
+                            <p className="text-2xl font-bold mt-1">10.5h</p>
+                            <p className="text-xs text-gray-500 mt-1">Last 7 days</p>
+                          </div>
+                          <div className="bg-green-50 dark:bg-green-950/30 rounded-lg p-4">
+                            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Tasks Completed</h3>
+                            <p className="text-2xl font-bold mt-1">3</p>
+                            <p className="text-xs text-gray-500 mt-1">Last 7 days</p>
+                          </div>
+                        </div>
+                        <div className="bg-purple-50 dark:bg-purple-950/30 rounded-lg p-4">
+                          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Most Time Spent</h3>
+                          <p className="font-medium mt-1">DEMO-1: Authentication Flow</p>
+                          <p className="text-xs text-gray-500 mt-1">3 hours logged</p>
                         </div>
                       </div>
                     </CardContent>
