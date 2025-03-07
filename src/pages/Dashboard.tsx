@@ -8,7 +8,7 @@ import JiraIssuesList from "@/components/jira/JiraIssuesList";
 import TimeLogsList from "@/components/jira/TimeLogsList";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Clock, GitBranch, CalendarDays, AlertCircle } from "lucide-react";
+import { Clock, GitBranch, CalendarDays } from "lucide-react";
 import FadeIn from "@/components/animations/FadeIn";
 import { useAuth } from "@/contexts/AuthContext";
 import { Badge } from "@/components/ui/badge";
@@ -46,7 +46,7 @@ const Dashboard = () => {
                 <div>
                   <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
                   <p className="text-gray-500 dark:text-gray-400 mt-2">
-                    Connect your accounts and start automating your time tracking.
+                    Track your time and manage your tasks
                   </p>
                 </div>
                 {isDemoMode && (
@@ -60,9 +60,14 @@ const Dashboard = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-2 space-y-6">
                 {isJiraConnected ? (
-                  <FadeIn delay={100}>
-                    <JiraIssuesList />
-                  </FadeIn>
+                  <>
+                    <FadeIn delay={100}>
+                      <JiraIssuesList />
+                    </FadeIn>
+                    <FadeIn delay={200}>
+                      <TimeLogsList />
+                    </FadeIn>
+                  </>
                 ) : (
                   <FadeIn delay={100}>
                     <Card>
@@ -114,32 +119,6 @@ const Dashboard = () => {
                     </Card>
                   </FadeIn>
                 )}
-
-                <FadeIn delay={200}>
-                  {isJiraConnected ? (
-                    <TimeLogsList />
-                  ) : (
-                    <Card>
-                      <CardHeader>
-                        <CardTitle>Recent Activity</CardTitle>
-                        <CardDescription>
-                          Your recent time logs and activity.
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="flex items-center justify-center py-8 text-center text-gray-500 dark:text-gray-400">
-                          <div>
-                            <AlertCircle className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                            <p>No recent activity</p>
-                            <p className="text-sm mt-1">
-                              Connect your accounts to start tracking time.
-                            </p>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  )}
-                </FadeIn>
               </div>
 
               <div className="space-y-6">
@@ -212,38 +191,6 @@ const Dashboard = () => {
                       </Card>
                     </TabsContent>
                   </Tabs>
-                </FadeIn>
-
-                <FadeIn delay={400}>
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Quick Stats</CardTitle>
-                      <CardDescription>
-                        Your time tracking statistics.
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-4">
-                        <div className="grid grid-cols-2 gap-4">
-                          <div className="bg-blue-50 dark:bg-blue-950/30 rounded-lg p-4">
-                            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Total Hours</h3>
-                            <p className="text-2xl font-bold mt-1">10.5h</p>
-                            <p className="text-xs text-gray-500 mt-1">Last 7 days</p>
-                          </div>
-                          <div className="bg-green-50 dark:bg-green-950/30 rounded-lg p-4">
-                            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Tasks Completed</h3>
-                            <p className="text-2xl font-bold mt-1">3</p>
-                            <p className="text-xs text-gray-500 mt-1">Last 7 days</p>
-                          </div>
-                        </div>
-                        <div className="bg-purple-50 dark:bg-purple-950/30 rounded-lg p-4">
-                          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Most Time Spent</h3>
-                          <p className="font-medium mt-1">DEMO-1: Authentication Flow</p>
-                          <p className="text-xs text-gray-500 mt-1">3 hours logged</p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
                 </FadeIn>
               </div>
             </div>
